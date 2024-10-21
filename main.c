@@ -109,7 +109,6 @@ int main(int argc, char* argv[]) {
         count++;
     }
     fclose(file);
-    printf("%llu\n", count);
 
     int size = (count == 0) ? 1 : (int)floor(log(count) / log(8)) + 1;
     char code[size + 2];
