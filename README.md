@@ -51,7 +51,7 @@ Contributions are welcome. Please fork the repository and submit a pull request.
 
 1. DO NOT LAUGH AT MY CODE
 2. DO NOT SWEAR MY CODE\
-rules are punishable by death and segfault in your brain
+breaking rules is punishable by death and segfault in your brain
 
 License
 -------
