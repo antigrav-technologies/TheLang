@@ -7,14 +7,14 @@ How It Works
 To rewrite a program from Brainfuck to TheLang, follow these steps:
 
 1. Convert each command to its corresponding number:
-	* < - 0
+	* \< - 0
 	* \> - 1
-	* + - 2
-	* - - 3
-	* . - 4
-	* , - 5
-	* [ - 6
-	* ] - 7
+	* \+ - 2
+	* \- - 3
+	* \. - 4
+	* \, - 5
+	* \[ - 6
+	* \] - 7
 2. Convert the reversed sequence to an octal (base8) number.
 3. Enter that many "the"s.
 
