@@ -33,7 +33,7 @@ the the the the the the the the the the the the the the the the the the the the 
 Compiling
 ----------
 
-Simply run the `make` utility.
+Simply run the `make` utility. Requires gcc.
 
 Usage
 -----
