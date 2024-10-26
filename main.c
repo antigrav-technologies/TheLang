@@ -73,6 +73,10 @@ void execute_bf(char* code_ptr) {
     }
 }
 
+unsigned char is_not_space_or_EOF(char c) {
+    return !(isspace(c) || c == EOF);
+}
+
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         fprintf(stderr, "No filename provided.\nUsage: ./TheLang <input.the>\n");
@@ -92,7 +96,8 @@ int main(int argc, char* argv[]) {
         
         if (tolower(c) != 't' ||
             tolower(fgetc(file)) != 'h' ||
-            tolower(fgetc(file)) != 'e') {
+            tolower(fgetc(file)) != 'e' ||
+            is_not_space_or_EOF(fgetc(file))) {
             fprintf(stderr, "Invalid input. Please enter the\n");
             exit(2);
         }
@@ -111,6 +116,6 @@ int main(int argc, char* argv[]) {
     code[0] = BF_PROGRAM_END;
     code[i] = BF_PROGRAM_END;
     execute_bf(code);
-
+    printf("\n");
     return 0;
 }
