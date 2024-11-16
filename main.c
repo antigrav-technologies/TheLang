@@ -1,6 +1,5 @@
 #include <ctype.h>
 #include <math.h>
-#include <memory.h>
 #include <stdio.h>
 #include <stdlib.h>
 #define TAPE_SIZE 30000
