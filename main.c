@@ -1,8 +1,8 @@
-#include <stdio.h>
 #include <ctype.h>
-#include <memory.h>
-#include <stdlib.h>
 #include <math.h>
+#include <memory.h>
+#include <stdio.h>
+#include <stdlib.h>
 #define TAPE_SIZE 30000
 
 const char BF_MOVE_POINTER_LEFT = 0;
@@ -15,7 +15,7 @@ const char BF_LOOP_START = 6;
 const char BF_LOOP_END = 7;
 const char BF_PROGRAM_END = 0x7F;
 
-void execute_bf(char* code_ptr) {
+void execute_bf(const char* code_ptr) {
     char tape[TAPE_SIZE] = {};
     char *tape_ptr = tape;
     code_ptr++;
@@ -40,7 +40,7 @@ void execute_bf(char* code_ptr) {
                 printf("%c", *tape_ptr);
                 break;
             case BF_INPUT_CELL:
-                *tape_ptr = getchar();
+                *tape_ptr = (char)getchar();
                 break;
             case BF_LOOP_START:
                 if (*tape_ptr != 0) break;
@@ -52,6 +52,7 @@ void execute_bf(char* code_ptr) {
                         case BF_PROGRAM_END:
                             fprintf(stderr, "Unmatched brackets\n");
                             exit(2);
+                        default:
                     }
                 }
                 break;
@@ -65,15 +66,18 @@ void execute_bf(char* code_ptr) {
                         case BF_PROGRAM_END:
                             fprintf(stderr, "Unmatched brackets\n");
                             exit(2);
+                        default:
                     }
                 }
                 break;
+            default:
+                exit(0x7f); // shouldn't be possible
         }
         code_ptr++;
     }
 }
 
-unsigned char is_not_space_or_EOF(char c) {
+unsigned char is_not_space_or_EOF(int c) {
     return !(isspace(c) || c == EOF);
 }
 
@@ -91,7 +95,7 @@ int main(int argc, char* argv[]) {
 
     unsigned long long count = 0;
     char c;
-    while ((c = fgetc(file)) != EOF) {
+    while ((c = (char)fgetc(file)) != EOF) {
         if (isspace(c)) continue;
         
         if (tolower(c) != 't' ||
@@ -105,12 +109,12 @@ int main(int argc, char* argv[]) {
     }
     fclose(file);
 
-    int size = (count == 0) ? 1 : (int)floor(log(count) / log(8)) + 1;
+    int size = (count == 0) ? 1 : (int)floor(log((double)count) / log(8)) + 1;
     char code[size + 2];
 
     int i = 1;
     while (count) {
-        code[i++] = count % 8;
+        code[i++] = (char)(count % 8);
         count /= 8;
     }
     code[0] = BF_PROGRAM_END;

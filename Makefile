@@ -1,5 +1,5 @@
 CC=gcc
 FLAGS=-O3 -Wall -Wextra -Werror
 
-all:
+all: main.c
 	$(CC) main.c -o TheLang $(FLAGS) -lm
