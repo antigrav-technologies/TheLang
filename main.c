@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <locale.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,8 +16,8 @@ const char BF_LOOP_END = 7;
 const char BF_PROGRAM_END = 0x7F;
 
 void execute_bf(const char* code_ptr) {
-    char tape[TAPE_SIZE] = {};
-    char *tape_ptr = tape;
+    unsigned char tape[TAPE_SIZE] = {};
+    unsigned char* tape_ptr = tape;
     code_ptr++;
 
     while (1) {
@@ -36,7 +37,12 @@ void execute_bf(const char* code_ptr) {
                 (*tape_ptr)--;
                 break;
             case BF_PRINT_CELL:
-                printf("%c", *tape_ptr);
+                if (*tape_ptr < 128) {
+                    printf("%c", *tape_ptr);
+                }
+                else {
+                    printf("%c%c", 0xC0 | (*tape_ptr >> 6), 0x80 | (*tape_ptr & 0x3F));
+                }
                 break;
             case BF_INPUT_CELL:
                 *tape_ptr = (char)getchar();
@@ -45,13 +51,13 @@ void execute_bf(const char* code_ptr) {
                 if (*tape_ptr != 0) break;
                 int b = 1;
                 while (b) {
-                    switch (*(++code_ptr)) {
+                    switch (*++code_ptr) {
                         case BF_LOOP_END: b--; break;
                         case BF_LOOP_START: b++; break;
                         case BF_PROGRAM_END:
                             fprintf(stderr, "Unmatched brackets\n");
                             exit(2);
-                        default:
+                        default: ;
                     }
                 }
                 break;
@@ -59,28 +65,29 @@ void execute_bf(const char* code_ptr) {
                 if (*tape_ptr == 0) break;
                 b = 1;
                 while (b) {
-                    switch (*(--code_ptr)) {
+                    switch (*--code_ptr) {
                         case BF_LOOP_END: b++; break;
                         case BF_LOOP_START: b--; break;
                         case BF_PROGRAM_END:
                             fprintf(stderr, "Unmatched brackets\n");
                             exit(2);
-                        default:
+                        default: ;
                     }
                 }
                 break;
             default:
-                exit(0x7f); // shouldn't be possible
+                exit(1); // shouldn't be possible
         }
         code_ptr++;
     }
 }
 
-unsigned char is_not_space_or_EOF(int c) {
+unsigned char is_not_space_or_EOF(const int c) {
     return !(isspace(c) || c == EOF);
 }
 
-int main(int argc, char* argv[]) {
+int main(const int argc, char* argv[]) {
+    setlocale(LC_ALL, "en_US.UTF-8");
     if (argc < 2) {
         fprintf(stderr, "No filename provided.\nUsage: ./TheLang <input.the>\n");
         return 1;
