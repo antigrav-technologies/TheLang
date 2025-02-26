@@ -43,16 +43,6 @@ To run a TheLang program, use the provided interpreter:
 ./TheLang <input.the>
 ```
 
-Contributing
-------------
-
-Contributions are welcome. Please fork the repository and submit a pull request.
-### Rules to contributors:
-
-1. DO NOT LAUGH AT MY CODE
-2. DO NOT SWEAR MY CODE\
-breaking rules is punishable by death and segfault in your brain
-
 License
 -------
 I can't stop you anyway. Do whatever you want.
